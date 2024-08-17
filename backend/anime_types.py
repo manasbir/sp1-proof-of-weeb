@@ -1,4 +1,4 @@
-from typing import List, TypedDict
+from typing import List, TypedDict, Optional
 
 class AnimeEntry(TypedDict):
     name: str
@@ -23,7 +23,7 @@ class NodeData(TypedDict):
     title: str
     mean: float
     popularity: int
-    nsfw: str
+    nsfw: Optional[str]
     genres: List[GenreData]
     created_at: str
 
@@ -36,3 +36,25 @@ class ListStatusData(TypedDict):
 class InputAnimeData(TypedDict):
     node: NodeData
     list_status: ListStatusData
+
+WHOLESOME_GENRES = set([
+    "Kids",
+    "Childcare",
+    "Isekai",
+    "Reincarnation",
+    "Slice of Life",
+    "Educational",
+])
+
+DEGEN_GENRES = set([
+    "Girls Love",
+    "Boys Love",
+    "Ecchi",
+    "Erotica",
+    "Hentai",
+    "Anthropomorphic",
+    "Crossdressing",
+    "Magical Sex Shift",
+    "Harem",
+    "Reverse Harem",
+])
