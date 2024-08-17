@@ -1,7 +1,20 @@
 import json
+from typing import List
 
+from anime_types import InputAnimeData, AnimeData
+
+def process(data: List[InputAnimeData]) -> AnimeData:
+    print(data)
+
+    return {
+        "username": "joe",
+        "data": [],
+        "timestamp": ""
+    }
+
+file_path = './dump.json'
 try:
-    with open('./dump.json', 'r') as file:
+    with open(file_path, 'r') as file:
         data = json.load(file)
     print(data['data'])
 except FileNotFoundError:
