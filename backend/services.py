@@ -1,14 +1,38 @@
 from typing import List
-from anime_types import AnimeEntry, InputAnimeData
+from datetime import datetime
+from anime_types import DEGEN_GENRES, WHOLESOME_GENRES, AnimeEntry, InputAnimeData
 
 def _calc_based(data: InputAnimeData) -> int:
     return 0
 
 def _calc_age(data: InputAnimeData) -> int:
-    return 0
+    node_data = data["node"]
+    created_at = node_data["created_at"]
+    parsed_date = datetime.fromisoformat(created_at)
+    current_date = datetime.now()
+    years_since = current_date.year - parsed_date.year
+
+    return min(100, round(years_since * 3.33))
 
 def _calc_degen(data: InputAnimeData) -> int:
-    return 0
+    node_data = data["node"]
+    base_value = 0
+    if "nsfw" in node_data:
+        nsfw = node_data["nsfw"]
+
+        if nsfw == 'gray':
+            base_value = 50
+        if nsfw == "black":
+            base_value = 100
+
+    for genre in node_data["genres"]:
+        name = genre["name"]
+        if name in WHOLESOME_GENRES:
+            base_value -= 5
+        if name in DEGEN_GENRES:
+            base_value += 5
+
+    return min(max(base_value, 0), 100)
 
 def _calc_normie(data: InputAnimeData) -> int:
     return 0
