@@ -1,24 +1,6 @@
 import json
-from typing import List
 
-from anime_types import AnimeEntry, InputAnimeData
-
-def _process_entry(data: InputAnimeData) -> AnimeEntry:
-    print(data)
-
-    return {
-        "name": "abc",
-        "based": 75,
-        "age": 15,
-        "degen": 75,
-        "normie": 90,
-        "completion": 50,
-        "ranked": 75,
-    }
-
-def process(data: List[InputAnimeData]) -> List[AnimeEntry]:
-    """Process raw data from MAL into a list of entries for ZK Circuit"""
-    return [_process_entry(entry) for entry in data]
+from services import process
 
 file_path = './dump.json'
 try:
