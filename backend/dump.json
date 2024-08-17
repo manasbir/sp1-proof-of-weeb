@@ -1,0 +1,101 @@
+{
+  "data": [
+    {
+      "node": {
+        "id": 1535,
+        "title": "Death Note",
+        "main_picture": {
+          "medium": "https://cdn.myanimelist.net/images/anime/1079/138100.webp",
+          "large": "https://cdn.myanimelist.net/images/anime/1079/138100l.webp"
+        },
+        "synopsis": "Brutal murders, petty thefts, and senseless violence pollute the human world. In contrast, the realm of death gods is a humdrum, unchanging gambling den. The ingenious 17-year-old Japanese student Light Yagami and sadistic god of death Ryuk share one belief: their worlds are rotten.\n\nFor his own amusement, Ryuk drops his Death Note into the human world. Light stumbles upon it, deeming the first of its rules ridiculous: the human whose name is written in this note shall die. However, the temptation is too great, and Light experiments by writing a felon's name, which disturbingly enacts his first murder.\n\nAware of the terrifying godlike power that has fallen into his hands, Light—under the alias Kira—follows his wicked sense of justice with the ultimate goal of cleansing the world of all evil-doers. The meticulous mastermind detective L is already on his trail, but as Light's brilliance rivals L's, the grand chase for Kira turns into an intense battle of wits that can only end when one of them is dead.\n\n[Written by MAL Rewrite]\n",
+        "mean": 8.62,
+        "popularity": 2,
+        "nsfw": "white",
+        "genres": [
+          {
+            "id": 40,
+            "name": "Psychological"
+          },
+          {
+            "id": 27,
+            "name": "Shounen"
+          },
+          {
+            "id": 37,
+            "name": "Supernatural"
+          },
+          {
+            "id": 41,
+            "name": "Suspense"
+          }
+        ],
+        "created_at": "2006-10-04T03:39:19+00:00"
+      },
+      "list_status": {
+        "status": "watching",
+        "score": 7,
+        "num_episodes_watched": 0,
+        "is_rewatching": false,
+        "updated_at": "2024-08-17T05:47:30+00:00"
+      }
+    },
+    {
+      "node": {
+        "id": 16498,
+        "title": "Shingeki no Kyojin",
+        "main_picture": {
+          "medium": "https://cdn.myanimelist.net/images/anime/10/47347.webp",
+          "large": "https://cdn.myanimelist.net/images/anime/10/47347l.webp"
+        },
+        "synopsis": "Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid creatures called Titans, forcing humans to hide in fear behind enormous concentric walls. What makes these giants truly terrifying is that their taste for human flesh is not born out of hunger but what appears to be out of pleasure. To ensure their survival, the remnants of humanity began living within defensive barriers, resulting in one hundred years without a single titan encounter. However, that fragile calm is soon shattered when a colossal Titan manages to breach the supposedly impregnable outer wall, reigniting the fight for survival against the man-eating abominations.\n\nAfter witnessing a horrific personal loss at the hands of the invading creatures, Eren Yeager dedicates his life to their eradication by enlisting into the Survey Corps, an elite military unit that combats the merciless humanoids outside the protection of the walls. Eren, his adopted sister Mikasa Ackerman, and his childhood friend Armin Arlert join the brutal war against the Titans and race to discover a way of defeating them before the last walls are breached.\n\n[Written by MAL Rewrite]",
+        "mean": 8.55,
+        "popularity": 1,
+        "nsfw": "white",
+        "genres": [
+          {
+            "id": 1,
+            "name": "Action"
+          },
+          {
+            "id": 46,
+            "name": "Award Winning"
+          },
+          {
+            "id": 8,
+            "name": "Drama"
+          },
+          {
+            "id": 58,
+            "name": "Gore"
+          },
+          {
+            "id": 38,
+            "name": "Military"
+          },
+          {
+            "id": 27,
+            "name": "Shounen"
+          },
+          {
+            "id": 76,
+            "name": "Survival"
+          },
+          {
+            "id": 41,
+            "name": "Suspense"
+          }
+        ],
+        "created_at": "2012-12-05T12:03:21+00:00"
+      },
+      "list_status": {
+        "status": "completed",
+        "score": 8,
+        "num_episodes_watched": 25,
+        "is_rewatching": false,
+        "updated_at": "2024-08-17T05:47:53+00:00"
+      }
+    }
+  ],
+  "paging": {}
+}

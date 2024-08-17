@@ -11,7 +11,8 @@ def home():
 
 @app.route('/api')
 def api_root():
-    
+    pass
+
 
 
 if __name__ == '__main__':
