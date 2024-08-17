@@ -1,0 +1,24 @@
+{
+    "username": "joe",
+    "time_stamp": "9438204830",
+    "anime_list": [
+        {
+            "name": "boku no pico",
+            "based": 75,
+            "age": 55,
+            "degen": 100,
+            "normie": 45,
+            "completion": 60,
+            "ranked": 30
+        },
+        {
+            "name": "naruto",
+            "based": 80,
+            "age": 50,
+            "degen": 70,
+            "normie": 60,
+            "completion": 85,
+            "ranked": 40
+        }
+    ]
+}

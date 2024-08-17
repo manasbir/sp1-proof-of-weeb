@@ -1,6 +1,3 @@
-//! An end-to-end example of using the SP1 SDK to generate a proof of a program that can be executed
-//! or have a core proof generated.
-//!
 //! You can run this script using the following command:
 //! ```shell
 //! RUST_LOG=info cargo run --release -- --execute
@@ -11,14 +8,15 @@
 //! ```
 
 use alloy_sol_types::SolType;
+use anime_taste_proof_lib::PublicValuesStruct;
 use clap::Parser;
-use fibonacci_lib::PublicValuesStruct;
-use sp1_sdk::{ProverClient, SP1Stdin};
+use serde::{Deserialize, Serialize};
+use sp1_sdk::{ProverClient, SP1ProofWithPublicValues, SP1Stdin};
+use std::fs::File;
+use std::io::Write;
 
-/// The ELF (executable and linkable format) file for the Succinct RISC-V zkVM.
-pub const FIBONACCI_ELF: &[u8] = include_bytes!("../../../elf/riscv32im-succinct-zkvm-elf");
+pub const ANIME_TASTE_PROOF_ELF: &[u8] = include_bytes!("../../../elf/riscv32im-succinct-zkvm-elf");
 
-/// The arguments for the command.
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
@@ -27,65 +25,62 @@ struct Args {
 
     #[clap(long)]
     prove: bool,
-
-    #[clap(long, default_value = "20")]
-    n: u32,
 }
 
 fn main() {
-    // Setup the logger.
     sp1_sdk::utils::setup_logger();
 
-    // Parse the command line arguments.
-    let args = Args::parse();
-
-    if args.execute == args.prove {
-        eprintln!("Error: You must specify either --execute or --prove");
-        std::process::exit(1);
-    }
-
-    // Setup the prover client.
     let client = ProverClient::new();
+    let stdin = SP1Stdin::new();
 
-    // Setup the inputs.
-    let mut stdin = SP1Stdin::new();
-    stdin.write(&args.n);
+    let (public_values, report) = client
+        .execute(ANIME_TASTE_PROOF_ELF, stdin.clone())
+        .run()
+        .unwrap();
 
-    println!("n: {}", args.n);
+    println!("Number of cycles: {}", report.total_instruction_count());
+    println!("Program executed successfully.");
 
-    if args.execute {
-        // Execute the program
-        let (output, report) = client.execute(FIBONACCI_ELF, stdin).run().unwrap();
-        println!("Program executed successfully.");
+    let decoded: PublicValuesStruct =
+        PublicValuesStruct::abi_decode(public_values.as_slice(), true).unwrap();
 
-        // Read the output.
-        let decoded = PublicValuesStruct::abi_decode(output.as_slice(), true).unwrap();
-        let PublicValuesStruct { n, a, b } = decoded;
-        println!("n: {}", n);
-        println!("a: {}", a);
-        println!("b: {}", b);
+    let PublicValuesStruct {
+        username,
+        time_stamp,
+        score_list,
+    } = decoded;
 
-        let (expected_a, expected_b) = fibonacci_lib::fibonacci(n);
-        assert_eq!(a, expected_a);
-        assert_eq!(b, expected_b);
-        println!("Values are correct!");
+    println!("username: {}", username);
+    println!("time_stamp: {}", time_stamp);
+    println!("score: {:?}", score_list);
 
-        // Record the number of cycles executed.
-        println!("Number of cycles: {}", report.total_instruction_count());
-    } else {
-        // Setup the program for proving.
-        let (pk, vk) = client.setup(FIBONACCI_ELF);
+    let json_data = serde_json::to_string_pretty(&PublicValuesStruct {
+        username: username.clone(),
+        time_stamp: time_stamp.clone(),
+        score_list: score_list.clone(),
+    })
+    .expect("Failed to serialize struct to JSON");
 
-        // Generate the proof
-        let proof = client
-            .prove(&pk, stdin)
-            .run()
-            .expect("failed to generate proof");
+    let mut file = File::create("output.json").expect("Failed to create file");
+    file.write_all(json_data.as_bytes())
+        .expect("Failed to write JSON to file");
 
-        println!("Successfully generated proof!");
+    println!("Saved PublicValuesStruct to output.json");
 
-        // Verify the proof.
-        client.verify(&proof, &vk).expect("failed to verify proof");
-        println!("Successfully verified proof!");
-    }
+    let (pk, vk) = client.setup(ANIME_TASTE_PROOF_ELF);
+    let proof = client.prove(&pk, stdin).compressed().run().unwrap();
+
+    println!("generated proof");
+
+    client.verify(&proof, &vk).expect("verification failed");
+    proof.save("proof.bin").expect("saving proof failed");
+
+    let deserialized_proof =
+        SP1ProofWithPublicValues::load("proof.bin").expect("loading proof failed");
+
+    client
+        .verify(&deserialized_proof, &vk)
+        .expect("verification failed");
+
+    println!("successfully generated and verified proof for the program!")
 }
