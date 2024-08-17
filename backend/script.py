@@ -6,7 +6,7 @@ file_path = './dump.json'
 try:
     with open(file_path, 'r') as file:
         data = json.load(file)
-    process(data['data'])
+    print(process(data['data']))
 except FileNotFoundError:
     print(f"Error: File '{file_path}' not found.")
 except json.JSONDecodeError:
