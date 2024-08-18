@@ -1,2 +1,4 @@
 backend/venv
 backend/keys.py
+
+.DS_Store
