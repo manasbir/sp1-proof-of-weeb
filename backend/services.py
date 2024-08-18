@@ -1,9 +1,14 @@
 from typing import List
 from datetime import datetime
-from anime_types import DEGEN_GENRES, WHOLESOME_GENRES, AnimeEntry, InputAnimeData
+from anime_types import BASED_DICT, DEGEN_GENRES, WHOLESOME_GENRES, AnimeEntry, InputAnimeData
 
 def _calc_based(data: InputAnimeData) -> int:
-    return 0
+    node_data = data["node"]
+    anime_id = node_data["id"]
+    if anime_id in BASED_DICT:
+        return BASED_DICT[anime_id]
+
+    return 50
 
 def _calc_age(data: InputAnimeData) -> int:
     node_data = data["node"]
