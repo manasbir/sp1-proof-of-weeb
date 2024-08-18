@@ -5,9 +5,24 @@ import UserInfo from "../components/user/UserInfo"
 export default function UserPage() {
     
     const [userData, setUserData] = useState<any | null>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    
 
     useEffect(() => {
-        getUserData(setUserData)
+        setIsLoading(true)
+        async function getUserData() {
+            const data = {
+                "image_url": "kladsjf;lkds",
+                "info": {
+                    "name": "name"
+                }
+            }
+        
+            setUserData(data)
+            setIsLoading(false)
+        }
+
+        getUserData()
     }, [])
 
     if (userData) {
@@ -22,13 +37,3 @@ export default function UserPage() {
 }
 
 
-async function getUserData(setFn) {
-    let data = {
-        "image_url": "kladsjf;lkds",
-        "info": {
-            "name": "name"
-        }
-    }
-
-    setFn(data)
-}

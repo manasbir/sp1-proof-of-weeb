@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-require('dotenv').config()
 
 
 export default function LoginButton() {
@@ -19,7 +18,7 @@ export default function LoginButton() {
         )
 
     } else if (code) {
-        getUuid(code, setJWT, setCode);
+        getUuid(code, setJWT);
         return (
             <h1>Loading</h1>
         )
@@ -37,7 +36,7 @@ function getJWTToken() {
 }
 
 function login() {
-    const clientId = process.env.CLIENT_ID;
+    const clientId = import.meta.env.VITE_CLIENT_ID;
     const codeChallenge = randomPenis();
     localStorage.setItem("codeChallenge", codeChallenge);
 
@@ -75,7 +74,7 @@ function randomPenis() {
     return str;
 }
 
-async function getUuid(code, setFn, setToken) {
+async function getUuid(code, setFn) {
     const codeChallenge = localStorage.getItem("codeChallenge")
 
     try {
@@ -90,7 +89,6 @@ async function getUuid(code, setFn, setToken) {
 
     } catch {
         localStorage.removeItem("codeChallenge")
-        setToken(null)
         alert("Failed Login")
     }
 }
