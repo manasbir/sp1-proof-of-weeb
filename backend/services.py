@@ -4,11 +4,18 @@ from anime_types import BASED_DICT, DEGEN_GENRES, WHOLESOME_GENRES, AnimeEntry, 
 
 def _calc_based(data: InputAnimeData) -> int:
     node_data = data["node"]
+    list_status = data["list_status"]
     anime_id = node_data["id"]
-    if anime_id in BASED_DICT:
-        return BASED_DICT[anime_id]
+    user_score = list_status['score']
 
-    return 50
+    based_score = 50
+    if anime_id in BASED_DICT:
+        based_score = BASED_DICT[anime_id]
+
+    based_score -= 50
+    based_score *= user_score / 10
+
+    return round(based_score) + 50
 
 def _calc_age(data: InputAnimeData) -> int:
     node_data = data["node"]
