@@ -47,13 +47,10 @@ fn main() {
     let client = ProverClient::new();
 
     // Setup the program.
-    let (pk, vk) = client.setup(FIBONACCI_ELF);
+    let (pk, vk) = client.setup(ANIME_TASTE_PROOF_ELF);
 
     // Setup the inputs.
     let mut stdin = SP1Stdin::new();
-    stdin.write(&args.n);
-
-    println!("n: {}", args.n);
 
     // Generate the proof.
     let proof = client

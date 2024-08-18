@@ -1,16 +1,11 @@
 //! You can run this script using the following command:
 //! ```shell
-//! RUST_LOG=info cargo run --release -- --execute
-//! ```
-//! or
-//! ```shell
-//! RUST_LOG=info cargo run --release -- --prove
+//! RUST_LOG=info cargo run --release
 //! ```
 
 use alloy_sol_types::SolType;
 use anime_taste_proof_lib::PublicValuesStruct;
 use clap::Parser;
-use serde::{Deserialize, Serialize};
 use sp1_sdk::{ProverClient, SP1ProofWithPublicValues, SP1Stdin};
 use std::fs::File;
 use std::io::Write;
@@ -38,6 +33,7 @@ fn main() {
         .run()
         .unwrap();
 
+    println!("Public values: {}", public_values.raw());
     println!("Number of cycles: {}", report.total_instruction_count());
     println!("Program executed successfully.");
 
@@ -61,15 +57,17 @@ fn main() {
     })
     .expect("Failed to serialize struct to JSON");
 
-    let mut file = File::create("output.json").expect("Failed to create file");
+    let mut file = File::create("decoded-output.json").expect("Failed to create file");
     file.write_all(json_data.as_bytes())
         .expect("Failed to write JSON to file");
 
-    println!("Saved PublicValuesStruct to output.json");
+    println!("Saved PublicValuesStruct to decoded-output.json");
 
     let (pk, vk) = client.setup(ANIME_TASTE_PROOF_ELF);
-    let proof = client.prove(&pk, stdin).compressed().run().unwrap();
+    let proof = client.prove(&pk, stdin).plonk().run().unwrap();
+    let solidity_proof = proof.raw();
 
+    println!("proof: {:?}", solidity_proof);
     println!("generated proof");
 
     client.verify(&proof, &vk).expect("verification failed");
