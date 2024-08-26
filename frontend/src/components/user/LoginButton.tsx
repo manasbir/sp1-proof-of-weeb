@@ -12,13 +12,40 @@ export default function LoginButton() {
 
     const [jwt, setJWT] = useState<string | null>(getJWTToken());
 
+    useEffect(() => {
+        const getUuid = async (code: string, setJWT: (jwt: string) => void) => {
+            const codeChallenge = localStorage.getItem("codeChallenge");
+            const clientId = import.meta.env.VITE_CLIENT_ID;
+
+            const response = await axios.post("https://myanimelist.net/v1/oauth2/token", {
+                grant_type: "authorization_code",
+                client_id: clientId,
+                code: code,
+                code_verifier: codeChallenge,
+            });
+
+            const jwt = response.data.jwt;
+            const username = response.data.username;
+
+
+            localStorage.setItem("jwt", jwt);
+            setJWT(jwt);
+            
+            window.open(window.location.origin + "/user/@self");
+        
+        }
+
+        if (code) {
+            getUuid(code, setJWT);
+        }
+    })
+
     if (jwt) {
         return (
             <h1>Logged in</h1>
         )
 
     } else if (code) {
-        getUuid(code, setJWT);
         return (
             <h1>Loading</h1>
         )
@@ -72,23 +99,4 @@ function randomPenis() {
         }
     }
     return str;
-}
-
-async function getUuid(code, setFn) {
-    const codeChallenge = localStorage.getItem("codeChallenge")
-
-    try {
-        const response = await axios.post("http://localhost:3000/", {
-            code: code,
-            codeChallenge: codeChallenge!
-        });
-        
-        console.log(response.data)
-
-        setFn(response.data.jwt)
-
-    } catch {
-        localStorage.removeItem("codeChallenge")
-        alert("Failed Login")
-    }
 }
